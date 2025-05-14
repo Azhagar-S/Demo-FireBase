@@ -1,10 +1,11 @@
 import {React , useState , useEffect} from 'react'
 import { getDocs , collection, query } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const [user, setUser] = useState([]);
-
+    const navigate = useNavigate()
 
     const getEmails = async () => {
         const q=query(collection(db, "users"));
@@ -22,12 +23,19 @@ const Dashboard = () => {
         getEmails()
     }, []);
 
+    const handleSignOut = async()=>{
+        await auth.signOut().then((data)=>console.log(data))
+
+        navigate('/login')
+    }
+
   return (
     <div>
         <h1>useremail</h1>
-        {user.map((item ,index) => (
-            <div key={item.index}>
+        {user.map((item ,i) => (
+            <div key={i}>
                 <h1>{item.email}</h1>
+                <button onClick={(e)=>handleSignOut(e)} className='bg-red-300 rounded px-3 font-semibold py-2' >Logout</button>
             </div>
         ))}
     </div>
