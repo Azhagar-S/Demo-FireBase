@@ -15,7 +15,7 @@ useEffect(()=>{
   auth.onAuthStateChanged((user) => {
     if (user) {
       setUser(user);
-      console.log("Data base:",user)
+    
     } else {
       setUser(null);
     }
